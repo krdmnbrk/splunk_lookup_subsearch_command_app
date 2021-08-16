@@ -4,11 +4,11 @@ import sys
 import csv
 import traceback
 from splunklib.searchcommands import \
-    dispatch, StreamingCommand, Configuration, Option, validators
+    dispatch, EventingCommand, Configuration, Option, validators
 
 
 @Configuration()
-class LookupSearch(StreamingCommand):
+class LookupSearch(EventingCommand):
 
     lookup_name = Option(
         doc='''
@@ -51,7 +51,7 @@ class LookupSearch(StreamingCommand):
 
 
 
-    def stream(self, events):
+    def transform(self, events):
 
         if not self.lookup_name.startswith("/"):
             self.lookup_name = "../lookups/" + self.lookup_name
